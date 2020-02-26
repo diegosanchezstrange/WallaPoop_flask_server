@@ -10,8 +10,6 @@ from .. import db
 
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../img/')
 
-print(static_file_dir)
-
 bp = Blueprint('products', __name__, '/')
 
 def login_required(f):
@@ -50,7 +48,7 @@ class ProductView(MethodView):
             imageStr = data['image']
 
             im = Image.open(BytesIO(base64.b64decode(imageStr)))
-            im.save(static_file_dir + nombre + '.jpg', 'JPEG')
+            im.save(static_file_dir + nombre.replace(" ", "_") + '.jpg', 'JPEG')
 
             try:
                 cur = db.connection.cursor()

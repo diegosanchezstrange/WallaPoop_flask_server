@@ -1,6 +1,9 @@
 import os
 import functools
 import json
+import base64
+from PIL import Image
+from io import BytesIO
 from flask import Blueprint, request, jsonify, make_response, current_app
 from flask.views import MethodView
 from .. import db
@@ -41,6 +44,11 @@ class ProductView(MethodView):
             descripcion = data['descripcion']
             precio = data['precio']
             product_owner = data['product_owner']
+            imageStr = data['image']
+
+            im = Image.open(BytesIO(base64.b64decode(imageStr)))
+            im.save(nombre + '.jpg', 'JPEG')
+
             try:
                 cur = db.connection.cursor()
                 cur.execute('INSERT INTO Product (NAME, DESCRIPTION, PRICE , PRODUCT_OWNER) VALUES (%s,%s,%s,%s)',(nombre, descripcion, precio, product_owner))

@@ -21,9 +21,7 @@ db = MySQL(app)
 
 @app.route('/img/<path:path>', methods=['GET'])
 def send_img(path):
-    print(os.path.join(static_file_dir, "teclado.jpg"))
-    print(os.path.isfile(os.path.join(static_file_dir, "teclado.jpg")) )
-    return send_from_directory(static_file_dir, "teclado.jpg")
+    return send_from_directory(static_file_dir, path)
 
 from .views import views
 app.register_blueprint(views.bp)

@@ -8,6 +8,9 @@ from flask import Blueprint, request, jsonify, make_response, current_app
 from flask.views import MethodView
 from .. import db
 
+static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../img/')
+
+print(static_file_dir)
 
 bp = Blueprint('products', __name__, '/')
 
@@ -47,7 +50,7 @@ class ProductView(MethodView):
             imageStr = data['image']
 
             im = Image.open(BytesIO(base64.b64decode(imageStr)))
-            im.save(nombre + '.jpg', 'JPEG')
+            im.save(static_file_dir + nombre + '.jpg', 'JPEG')
 
             try:
                 cur = db.connection.cursor()
